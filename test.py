@@ -74,7 +74,8 @@ async def handle_product1(message: types.Message):
         KeyboardButton('Купить продукт Товар 1'),
         KeyboardButton('Бесплатный фрагмент Товар 1'),
         KeyboardButton('Ещё продукты Товар 1'),
-        back_button
+        back_button, 
+        KeyboardButton('Меню')
     ))
 
 @dp.message_handler(lambda message: message.text == "Товар 2")
@@ -86,7 +87,8 @@ async def handle_product2(message: types.Message):
         KeyboardButton('Купить продукт Товар 2'),
         KeyboardButton('Бесплатный фрагмент Товар 2'),
         KeyboardButton('Ещё продукты Товар 2'),
-        back_button
+        back_button,
+        KeyboardButton('Меню')
     ))
 
 @dp.message_handler(lambda message: message.text == "Товар 3")
@@ -98,7 +100,8 @@ async def handle_product3(message: types.Message):
         KeyboardButton('Купить продукт Товар 3'),
         KeyboardButton('Бесплатный фрагмент Товар 3'),
         KeyboardButton('Ещё продукты Товар 3'),
-        back_button
+        back_button,
+        KeyboardButton('Меню')
     ))
 
 
