@@ -17,7 +17,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import types
 
 # Замените 'YOUR_BOT_TOKEN_HERE' на токен вашего бота
-API_TOKEN = '7230659353:AAHF66GIspjZTUoW_zPktwnXya0HNH1h70M'
+API_TOKEN = '7347714523:AAGZA_TNJOKz2RnUqiCx3wERx0zt3eS3vPI'
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
