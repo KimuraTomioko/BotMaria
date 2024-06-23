@@ -30,11 +30,11 @@ dp = Dispatcher(bot)
 menu_button = KeyboardButton('Меню')
 menu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(menu_button)
 
-# Кнопка "Купить продукты"
+# Кнопка "Выбрать"
 buy_products_button = KeyboardButton('Выбрать')
 first_level_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(buy_products_button)
 
-# Кнопки, которые появляются при нажатии на "Купить продукты"
+# Кнопки, которые появляются при нажатии на "Выбрать"
 button1 = KeyboardButton('Купить продукт')
 button2 = KeyboardButton('Бесплатный фрагмент')
 button3 = KeyboardButton('Ещё продукты')
