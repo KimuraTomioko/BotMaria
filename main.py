@@ -17,11 +17,7 @@ dp = Dispatcher(bot)
 menu_button = KeyboardButton('Меню')
 menu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(menu_button)
 
-# Кнопка "Купить продукты"
-buy_products_button = KeyboardButton('Выбрать')
-first_level_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(buy_products_button)
-
-# Кнопки, которые появляются при нажатии на "Купить продукты"
+# Кнопки, которые появляются при нажатии на "Меню"
 submenu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(
     KeyboardButton('Купить продукт'),
     KeyboardButton('Бесплатный фрагмент'),
@@ -58,12 +54,7 @@ async def go_back(message: types.Message):
 # Обработчик кнопки "Меню"
 @dp.message_handler(lambda message: message.text == "Меню")
 async def show_first_level_menu(message: types.Message):
-    await message.answer("Меню:", reply_markup=first_level_keyboard)
-
-# Обработчик кнопки "Купить продукты"
-@dp.message_handler(lambda message: message.text == "Выбрать")
-async def show_products(message: types.Message):
-    await message.answer("Выберите услугу:", reply_markup=products_keyboard)
+    await message.answer('Меню:',reply_markup=products_keyboard)
 
 # Обработчики кнопок товаров
 @dp.message_handler(lambda message: message.text in ["Гайд по страхам", "Гайд внутренний ребенок", "Консультация"])
@@ -87,7 +78,7 @@ async def free_fragment(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == "Ещё продукты")
 async def more_products(message: types.Message):
-    await message.answer('Выберите услугу:', reply_markup=products_keyboard)
+    await message.answer(reply_markup=products_keyboard)
 
 @dp.message_handler(lambda message: message.text == "Просмотреть")
 async def view_inner_child_guide(message: types.Message):
@@ -128,6 +119,14 @@ async def check_handler(callback: types.CallbackQuery):
             chat_id=callback.message.chat.id,
             message_id=callback.message.message_id,
             reply_markup=None  # Передаём None, чтобы убрать клавиатуру
+        )
+        # Отправляем личное сообщение с информацией о платеже
+        await bot.send_message(
+            "1921428012",  # Ваш Telegram ID
+            f"Прошла оплата:\n"
+            f"оплачено: yes\n"
+            f"chat_id: {callback.message.chat.id}\n"
+            f"Курс: Гайд по страхам"
         )
 
     else:

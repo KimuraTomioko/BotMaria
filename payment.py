@@ -18,7 +18,7 @@ def create(amount, chat_id):
         },
         'confirmation': {
             'type': 'redirect',
-            'return_url': 'https://t.me/test_tokenn_bot'
+            'return_url': 'https://t.me/maria_psy_special_bot'
         },
         'capture': True,
         'metadata': {
