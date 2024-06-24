@@ -4,7 +4,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 from payment import create, check
 
 # Замените 'YOUR_BOT_TOKEN_HERE' на токен вашего бота
-API_TOKEN = '7347714523:AAGZA_TNJOKz2RnUqiCx3wERx0zt3eS3vPI'
+API_TOKEN = '7230659353:AAHF66GIspjZTUoW_zPktwnXya0HNH1h70M'
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -37,6 +37,14 @@ products_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(
     KeyboardButton('Консультация')
 )
 
+# Кнопки для "Гайд внутренний ребенок"
+inner_child_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(
+    KeyboardButton('Просмотреть'),
+    KeyboardButton('Ещё продукты'),
+    KeyboardButton('Вернуться обратно'),
+    KeyboardButton('Меню')
+)
+
 # Обработчик команды /start
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
@@ -61,7 +69,12 @@ async def show_products(message: types.Message):
 @dp.message_handler(lambda message: message.text in ["Гайд по страхам", "Гайд внутренний ребенок", "Консультация"])
 async def handle_product(message: types.Message):
     product_name = message.text
-    await message.answer(f'Вы выбрали {product_name}. Доступные действия:', reply_markup=submenu_keyboard)
+    if product_name == "Консультация":
+        await message.answer("Проконсультируйся со мной https://t.me/maryribakova")
+    elif product_name == "Гайд внутренний ребенок":
+        await message.answer(f'Вы выбрали {product_name}. Доступные действия:', reply_markup=inner_child_keyboard)
+    else:
+        await message.answer(f'Вы выбрали {product_name}. Доступные действия:', reply_markup=submenu_keyboard)
 
 # Обработчики действий для каждого товара
 @dp.message_handler(lambda message: message.text.startswith("Купить продукт"))
@@ -74,7 +87,11 @@ async def free_fragment(message: types.Message):
 
 @dp.message_handler(lambda message: message.text.startswith("Ещё продукты"))
 async def more_products(message: types.Message):
-    await message.answer('Вот ещё наши продукты:\n1. Продукт 1\n2. Продукт 2')
+    await message.answer('Новые продукты пока что в разработке!')
+
+@dp.message_handler(lambda message: message.text == "Просмотреть")
+async def view_inner_child_guide(message: types.Message):
+    await message.answer('Просмотреть материал можно по ссылке: https://t.me/rybakovanastavnik/128')
 
 # Обработчик команды /buy
 @dp.message_handler(commands=['buy'])
@@ -103,7 +120,7 @@ async def check_handler(callback: types.CallbackQuery):
         # Отправляем личное сообщение с информацией о платеже
         await bot.send_message(
             callback.message.chat.id,
-            "Отлично, платёж прошёл! Вот ссылка на материал: https://www.youtube.com/"
+            "Отлично, платёж прошёл! Вот ссылка на материал: https://t.me/+arvnh2AOBodkYzEy"
         )
 
         # Изменяем состояние кнопки на неактивное
@@ -120,3 +137,4 @@ async def check_handler(callback: types.CallbackQuery):
 # Запуск бота
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
+
