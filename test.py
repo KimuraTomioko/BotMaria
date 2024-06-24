@@ -1,23 +1,10 @@
 import logging
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-import logging
-from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-import yookassa
-from yookassa import Payment
-import uuid
-from payment import *
-from aiogram import types
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from payment import create, check
-from aiogram.types import LabeledPrice
-from aiogram import types
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-from aiogram import types
 
 # Замените 'YOUR_BOT_TOKEN_HERE' на токен вашего бота
-API_TOKEN = '7347714523:AAGZA_TNJOKz2RnUqiCx3wERx0zt3eS3vPI'
+API_TOKEN = '7230659353:AAHF66GIspjZTUoW_zPktwnXya0HNH1h70M'
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -30,149 +17,81 @@ dp = Dispatcher(bot)
 menu_button = KeyboardButton('Меню')
 menu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(menu_button)
 
-# Кнопка "Выбрать"
+# Кнопка "Купить продукты"
 buy_products_button = KeyboardButton('Выбрать')
 first_level_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(buy_products_button)
 
-# Кнопки, которые появляются при нажатии на "Выбрать"
-button1 = KeyboardButton('Купить продукт')
-button2 = KeyboardButton('Бесплатный фрагмент')
-button3 = KeyboardButton('Ещё продукты')
-back_button = KeyboardButton('Вернуться обратно')
-menu_button = KeyboardButton('Меню')
-submenu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(button1, button2, button3, back_button, menu_button)
+# Кнопки, которые появляются при нажатии на "Купить продукты"
+submenu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(
+    KeyboardButton('Купить продукт'),
+    KeyboardButton('Бесплатный фрагмент'),
+    KeyboardButton('Ещё продукты'),
+    KeyboardButton('Вернуться обратно'),
+    KeyboardButton('Меню')
+)
 
 # Кнопки для каждого товара
-product1_button = KeyboardButton('Товар 1')
-product2_button = KeyboardButton('Товар 2')
-product3_button = KeyboardButton('Товар 3')
-products_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(product1_button, product2_button, product3_button)
+products_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(
+    KeyboardButton('Гайд по страхам'),
+    KeyboardButton('Гайд внутренний ребенок'),
+    KeyboardButton('Консультация')
+)
+
+# Кнопки для "Гайд внутренний ребенок"
+inner_child_keyboard = ReplyKeyboardMarkup(resize_keyboard=True).add(
+    KeyboardButton('Просмотреть'),
+    KeyboardButton('Ещё продукты'),
+    KeyboardButton('Вернуться обратно'),
+    KeyboardButton('Меню')
+)
 
 # Обработчик команды /start
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     await message.answer("Привет! Нажми на кнопку 'Меню'.", reply_markup=menu_keyboard)
 
-# Обработчик кнопки "Меню"
-@dp.message_handler(lambda message: message.text == "Меню")
-async def show_first_level_menu(message: types.Message):
-    await message.answer("Выберите одну из кнопок ниже:", reply_markup=first_level_keyboard)
-
-# Обработчик кнопки "Купить продукты"
-@dp.message_handler(lambda message: message.text == "Выбрать")
-async def show_products(message: types.Message):
-    await message.answer("Выберите товар:", reply_markup=products_keyboard)
-
-# Обработчики кнопок товаров
-# Обработчики кнопок товаров
-@dp.message_handler(lambda message: message.text == "Товар 1")
-async def handle_product1(message: types.Message):
-    await message.answer('Вы выбрали Товар 1. Доступные действия:', reply_markup=submenu_keyboard)
-
-    # Добавляем уникальные записи для Товара 1
-    await message.answer('Для Товара 1 доступны следующие действия:', reply_markup=ReplyKeyboardMarkup(resize_keyboard=True).add(
-        KeyboardButton('Купить продукт Товар 1'),
-        KeyboardButton('Бесплатный фрагмент Товар 1'),
-        KeyboardButton('Ещё продукты Товар 1'),
-        back_button, 
-        KeyboardButton('Меню')
-    ))
-
-@dp.message_handler(lambda message: message.text == "Товар 2")
-async def handle_product2(message: types.Message):
-    await message.answer('Вы выбрали Товар 2. Доступные действия:', reply_markup=submenu_keyboard)
-
-    # Добавляем уникальные записи для Товара 2
-    await message.answer('Для Товара 2 доступны следующие действия:', reply_markup=ReplyKeyboardMarkup(resize_keyboard=True).add(
-        KeyboardButton('Купить продукт Товар 2'),
-        KeyboardButton('Бесплатный фрагмент Товар 2'),
-        KeyboardButton('Ещё продукты Товар 2'),
-        back_button,
-        KeyboardButton('Меню')
-    ))
-
-@dp.message_handler(lambda message: message.text == "Товар 3")
-async def handle_product3(message: types.Message):
-    await message.answer('Вы выбрали Товар 3. Доступные действия:', reply_markup=submenu_keyboard)
-
-    # Добавляем уникальные записи для Товара 3
-    await message.answer('Для Товара 3 доступны следующие действия:', reply_markup=ReplyKeyboardMarkup(resize_keyboard=True).add(
-        KeyboardButton('Купить продукт Товар 3'),
-        KeyboardButton('Бесплатный фрагмент Товар 3'),
-        KeyboardButton('Ещё продукты Товар 3'),
-        back_button,
-        KeyboardButton('Меню')
-    ))
-
-
 # Обработчик кнопки "Вернуться обратно"
 @dp.message_handler(lambda message: message.text == "Вернуться обратно")
 async def go_back(message: types.Message):
     await message.answer("Вы вернулись в главное меню.", reply_markup=products_keyboard)
 
+# Обработчик кнопки "Меню"
+@dp.message_handler(lambda message: message.text == "Меню")
+async def show_first_level_menu(message: types.Message):
+    await message.answer("Меню:", reply_markup=first_level_keyboard)
 
-@dp.message_handler(lambda message: message.text == "Купить продукт")
+# Обработчик кнопки "Купить продукты"
+@dp.message_handler(lambda message: message.text == "Выбрать")
+async def show_products(message: types.Message):
+    await message.answer("Выберите услугу:", reply_markup=products_keyboard)
+
+# Обработчики кнопок товаров
+@dp.message_handler(lambda message: message.text in ["Гайд по страхам", "Гайд внутренний ребенок", "Консультация"])
+async def handle_product(message: types.Message):
+    product_name = message.text
+    if product_name == "Консультация":
+        await message.answer("Проконсультируйся со мной https://t.me/maryribakova")
+    elif product_name == "Гайд внутренний ребенок":
+        await message.answer(f'Вы выбрали {product_name}. Доступные действия:', reply_markup=inner_child_keyboard)
+    else:
+        await message.answer(f'Вы выбрали {product_name}. Доступные действия:', reply_markup=submenu_keyboard)
+
+# Обработчики действий для каждого товара
+@dp.message_handler(lambda message: message.text.startswith("Купить продукт"))
 async def buy_product(message: types.Message):
     await message.answer('Вы можете приобрести продукт введя команду /buy')
 
-@dp.message_handler(lambda message: message.text == "Бесплатный фрагмент")
-async def buy_product(message: types.Message):
+@dp.message_handler(lambda message: message.text.startswith("Бесплатный фрагмент"))
+async def free_fragment(message: types.Message):
     await message.answer('Бесплатный фрагмент доступен по ссылке - https://www.youtube.com/')
 
 @dp.message_handler(lambda message: message.text == "Ещё продукты")
-async def buy_product(message: types.Message):
-    await message.answer('Вот ещё наши продукты:\n1. Продукт 1\n2. Продукт 2')
+async def more_products(message: types.Message):
+    await message.answer('Выберите услугу:', reply_markup=products_keyboard)
 
-
-#_________________________________________________________________________________
-# Товар 1
-@dp.message_handler(lambda message: message.text == "Купить продукт Товар 1")
-async def buy_product(message: types.Message):
-    await message.answer('Вы можете приобрести продукт введя команду /buy')
-
-@dp.message_handler(lambda message: message.text == "Бесплатный фрагмент Товар 1")
-async def buy_product(message: types.Message):
-    await message.answer('Бесплатный фрагмент доступен по ссылке - https://www.youtube.com/')
-
-@dp.message_handler(lambda message: message.text == "Ещё продукты Товар 1")
-async def buy_product(message: types.Message):
-    await message.answer('Вот ещё наши продукты:\n1. Продукт 1\n2. Продукт 2')
-
-
-#_________________________________________________________________________________
-# Товар 2
-@dp.message_handler(lambda message: message.text == "Купить продукт Товар 2")
-async def buy_product(message: types.Message):
-    await message.answer('Вы можете приобрести продукт введя команду /buy')
-
-@dp.message_handler(lambda message: message.text == "Бесплатный фрагмент Товар 2")
-async def buy_product(message: types.Message):
-    await message.answer('Бесплатный фрагмент доступен по ссылке - https://www.youtube.com/')
-
-@dp.message_handler(lambda message: message.text == "Ещё продукты Товар 2")
-async def buy_product(message: types.Message):
-    await message.answer('Вот ещё наши продукты:\n1. Продукт 1\n2. Продукт 2')
-
-
-#_________________________________________________________________________________
-# Товар 3
-@dp.message_handler(lambda message: message.text == "Купить продукт Товар 3")
-async def buy_product(message: types.Message):
-    await message.answer('Вы можете приобрести продукт введя команду /buy')
-
-@dp.message_handler(lambda message: message.text == "Бесплатный фрагмент Товар 3")
-async def buy_product(message: types.Message):
-    await message.answer('Бесплатный фрагмент доступен по ссылке - https://www.youtube.com/')
-
-@dp.message_handler(lambda message: message.text == "Ещё продукты Товар 3")
-async def buy_product(message: types.Message):
-    await message.answer('Вот ещё наши продукты:\n1. Продукт 1\n2. Продукт 2')
-
-
-
-
-
-
+@dp.message_handler(lambda message: message.text == "Просмотреть")
+async def view_inner_child_guide(message: types.Message):
+    await message.answer('Просмотреть материал можно по ссылке: https://t.me/rybakovanastavnik/128')
 
 # Обработчик команды /buy
 @dp.message_handler(commands=['buy'])
@@ -180,12 +99,12 @@ async def buy_handler(message: types.Message):
     sum_to_buy = 1000
     payment_url, payment_id = create(sum_to_buy, message.chat.id)
 
-    builder = types.InlineKeyboardMarkup()
-    builder.add(types.InlineKeyboardButton(
+    builder = InlineKeyboardMarkup()
+    builder.add(InlineKeyboardButton(
         text='Оплатить',
         url=payment_url
     ))
-    builder.add(types.InlineKeyboardButton(
+    builder.add(InlineKeyboardButton(
         text='Проверить оплату',
         callback_data=f'check_{payment_id}'
     ))
@@ -200,13 +119,9 @@ async def check_handler(callback: types.CallbackQuery):
     if result:
         # Отправляем личное сообщение с информацией о платеже
         await bot.send_message(
-            "1921428012",  # Ваш Telegram ID
-            f"Прошла оплата:\n"
-            f"id покупателя: user_chat_id\n"
-            f"оплачено: yes\n"
-            f"chat_id: {callback.message.chat.id}\n"
+            callback.message.chat.id,
+            "Отлично, платёж прошёл! Вот ссылка на материал: https://t.me/+arvnh2AOBodkYzEy"
         )
-        await bot.send_message(callback.message.chat.id, "Отлично, платёж прошёл! Вот ссылка на материал: https://www.youtube.com/")
 
         # Изменяем состояние кнопки на неактивное
         await bot.edit_message_reply_markup(

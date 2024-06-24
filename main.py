@@ -63,7 +63,7 @@ async def show_first_level_menu(message: types.Message):
 # Обработчик кнопки "Купить продукты"
 @dp.message_handler(lambda message: message.text == "Выбрать")
 async def show_products(message: types.Message):
-    await message.answer("Выберите товар:", reply_markup=products_keyboard)
+    await message.answer("Выберите услугу:", reply_markup=products_keyboard)
 
 # Обработчики кнопок товаров
 @dp.message_handler(lambda message: message.text in ["Гайд по страхам", "Гайд внутренний ребенок", "Консультация"])
