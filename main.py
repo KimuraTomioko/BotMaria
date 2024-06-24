@@ -58,7 +58,7 @@ async def go_back(message: types.Message):
 # Обработчик кнопки "Меню"
 @dp.message_handler(lambda message: message.text == "Меню")
 async def show_first_level_menu(message: types.Message):
-    await message.answer("Выберите одну из кнопок ниже:", reply_markup=first_level_keyboard)
+    await message.answer("Меню:", reply_markup=first_level_keyboard)
 
 # Обработчик кнопки "Купить продукты"
 @dp.message_handler(lambda message: message.text == "Выбрать")
@@ -85,9 +85,9 @@ async def buy_product(message: types.Message):
 async def free_fragment(message: types.Message):
     await message.answer('Бесплатный фрагмент доступен по ссылке - https://www.youtube.com/')
 
-@dp.message_handler(lambda message: message.text.startswith("Ещё продукты"))
+@dp.message_handler(lambda message: message.text == "Ещё продукты")
 async def more_products(message: types.Message):
-    await message.answer('Новые продукты пока что в разработке!')
+    await message.answer('Выберите услугу:', reply_markup=products_keyboard)
 
 @dp.message_handler(lambda message: message.text == "Просмотреть")
 async def view_inner_child_guide(message: types.Message):
