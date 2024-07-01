@@ -54,7 +54,7 @@ async def go_back(message: types.Message):
 # Обработчик кнопки "Меню"
 @dp.message_handler(lambda message: message.text == "Меню")
 async def show_first_level_menu(message: types.Message):
-    await message.answer('Меню:',reply_markup=products_keyboard)
+    await message.answer('Выберите услугу:',reply_markup=products_keyboard)
 
 # Обработчики кнопок товаров
 @dp.message_handler(lambda message: message.text in ["Гайд по страхам", "Гайд внутренний ребенок", "Консультация"])
