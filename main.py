@@ -78,7 +78,7 @@ async def free_fragment(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == "Ещё продукты")
 async def more_products(message: types.Message):
-    await message.answer(reply_markup=products_keyboard)
+    await message.answer('Обратно:',reply_markup=products_keyboard)
 
 @dp.message_handler(lambda message: message.text == "Просмотреть")
 async def view_inner_child_guide(message: types.Message):
